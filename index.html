@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Application</title>
+</head>
+<body>
+    <div class="container mt-3">
+        <h1>JSON Application</h1>
+        <p>Welcome to the JSON Applicaiton, this application will take your JSON File and covert to the correct format JSON file, please follow all the steps/instructions</p>
+        <ul style="list-style-type:square">
+        <li>Step 1: Choose a JSON File to upload</li>
+        <li>Step 2: Click the Upload button to upload it [please wait few seconds]</li>
+        <li>Step 3: Download the updated JSON file [assetlist.json]</li>
+        </ul>
+        
+        <h4>Note</h4>
+        <dl>
+        <dt>-> You can also access the updated json file from a folder called OutputJSON</dt>
+        <dt>-> Please only upload and download one file at a time because the application is built in a way that there will be only one file in the both
+        InputJSON folder [Uploaded file will be transfered to this file with name data.json] and OutputJSON folder [Updated json file called assetlist.json].</dt>
+        <dt>-> The application will automatically update the single file in the InputJSON if two files are uploaded one after the other, in this situation second 
+          file will be in the InputJSON folder. It is best to follow all steps for one file and than go to the next file. If files are switched in between steps
+          last file/lastest file will be processed.</dt>
+        <dt>-> Please restart the application if any errors occur.</dt>
+        <dt>-> Pressing the download button at the starting could lead to errors, please be caution about this.</dt>
+        </dl>    
+        <h5>It is best to check the updated json file.</h5>
+
+        <form method="POST" action="/" enctype= "multipart/form-data">
+          <div class="custom-file mb-3">
+            <input type="file" class="custom-file-input" id="customFile" name="fileName">
+            <label class="custom-file-label" for="customFile"></label>
+          </div>
+          <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </div>
+          <br>
+          <h5>Please wait for a few seconds</h5>
+          <a href="/download" class="btn btn-primary" role ="button">Download</a>
+        </form>
+    </div>
+          
+      <script>
+      // Add the following code if you want the name of the file appear on select
+      $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+      });
+      </script>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+</body>
+</html>
