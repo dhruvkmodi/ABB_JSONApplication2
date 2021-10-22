@@ -53,7 +53,7 @@ function JSONFormat() {
   var formatted = {}; //created a javascript object
   var jsonformat = fs.readFileSync("./InputJSON/data.json", "utf8"); //reading the file and coverting the encoding to utf8 so the file can be parsed
   jsonformat = jsonformat.trim(); //trimming the whitespaces from the data.json, also trim will filter out character that are not need or chars that could cause error
-  formatted = JSON.parse(jsonformat); //coverting json to javascript object and storing the empty javascript object created in the starting
+  formatted = JSON.parse(jsonformat); //coverting json to javascript object and storing it in the empty javascript object created in the starting
   fs.writeFileSync("./InputJSON/data.json", JSON.stringify(formatted, null, 2)); //writing to the same file with the updated and also coverted from javascript object back to json
 }
 
@@ -99,207 +99,28 @@ function UpdateJSON() {
   var ParseJSON = JSON.parse(ReadJSON); //coverting the json to javascript object
 
   //Updating the JSON File with the jmespath query language sorting the measurment by MeasurementTypeID
-  var Output1 = jmespath.search(
+  var Output = jmespath.search(
     ParseJSON,
     `[].
   {
-    AssetID: AssetID,
-    UniqueID: UniqueID,
-    DeviceID: DeviceID,
-    AssetName: AssetName,
-    SerialNumber: SerialNumber,
-    Description: Description,
-    PlantID: PlantID,
-    PlantName: PlantName,
-    AssetGroupID: AssetGroupID,
-    AssetType: AssetType,
-    SensorType: SensorType,
-    AssetTypeName: AssetTypeName,
-    IsGroup: IsGroup,
-    IsFavorite: IsFavorite,
-    FirmwareUpdate:
+    Measurements : Measurements[].
     {
-        UpdateAvailable: FirmwareUpdate.UpdateAvailable,
-        UpdateFirmwareID: FirmwareUpdate.UpdateFirmwareID,
-        UpdateFirmwareVersion:  FirmwareUpdate.UpdateFirmwareVersion,
-        UpdateFirmwareProperties: FirmwareUpdate.UpdateFirmwareProperties
-    },
-    AssetPictures: AssetPictures[],
-    BatteryLevel: BatteryLevel,
-    HealthStatus: HealthStatus,
-    Labels: Labels[],
-    LastSyncTimeStamp: LastSyncTimeStamp,
-    LastMeasurementTimeStamp: LastMeasurementTimeStamp,
-    AssetProperties: AssetProperties[],
-    Measurements : sort_by(Measurements, &MeasurementTypeID)[],
-    Sensor:
-    {
-        SensorIdentifier: Sensor.SensorIdentifier,
-        Hardware:
-        {
-           HardwareRevisionID: Sensor.Hardware.HardwareRevisionID,
-           HardwareRevisionName: Sensor.Hardware.HardwareRevisionName,
-           HardwareVarianceID: Sensor.Hardware.HardwareVarianceID,
-           HardwareVarianceName: Sensor.Hardware.HardwareVarianceName
-        },  
-        FirmwareVersion: Sensor.FirmwareVersion,
-        CommissioningDate: Sensor.CommissioningDate,
-        Properties: Sensor.Properties[],
-        Subscription:
-        {
-            IsBasicSubscription: Sensor.Subscription.IsBasicSubscription,
-            IsTrialSubscription: Sensor.Subscription.IsTrialSubscription,
-            StartDate: Sensor.Subscription.StartDate,
-            EndDate: Sensor.Subscription.EndDate,
-            SubscriptionLevel:
-            {
-               Description: Sensor.Subscription.SubscriptionLevel.Description,
-               Id: Sensor.Subscription.SubscriptionLevel.Id,
-               Name: Sensor.Subscription.SubscriptionLevel.Name
-            },
-            HasAvailableSubscriptions: Sensor.Subscription.HasAvailableSubscriptions,
-            IsExpiring: Sensor.Subscription.IsExpiring
-        },
-        Features: Sensor.Features[]
-        IsPowerSavingEnabled: Sensor.IsPowerSavingEnabled,
-        OperatingMode:  Sensor.OperatingMode    
-    },
-    LocationLatitude: LocationLatitude,
-    LocationLongitude: LocationLongitude,
-    CreatedOn: CreatedOn,
-    LastUpdatedOn: LastUpdatedOn,
-    OrganizationID: OrganizationID,
-    ConfigurationProfiles: ConfigurationProfiles[],
-    AssetResponsibleID: AssetResponsibleID,
-    AssetResponsibleName: AssetResponsibleName,
-    Condition: Condition[],
-    IsMonitored: IsMonitored,
-    PlantUniqueID: PlantUniqueID,
-    AssetImageSource: AssetImageSource,
-    NameplateImageSource: NameplateImageSource,
-    SensorRange: SensorRange,
-    MeasurementStatus: MeasurementStatus,
-    AuthenticationPassKey: AuthenticationPassKey,
-    IsCommunicating: IsCommunicating,
-    AuthenticationID: AuthenticationID,
-    FirmwareVersion: FirmwareVersion
-    SensorTypeKey:
-    {
-        SensorType: SensorTypeKey.SensorType,
-        AssetType: SensorTypeKey.AssetType
+     MeasurementTypeCode : MeasurementTypeCode,
+     MeasurementTypeID : MeasurementTypeID,
+     MeasurementValue : MeasurementValue,
+     UniqueID : UniqueID 
     }
-    OverallConditionStatus: OverallConditionStatus
+
+
+
   }
     `
   );
-  console.log(Output1); //outputting the update JSON file
+  console.log(Output); //outputting the update JSON file
   fs.writeFileSync(
     "./OutputJSON/assetlist.json",
-    JSON.stringify(Output1, null, 2)
+    JSON.stringify(Output, null, 2)
   ); //storing/writing to assetlist.json which is located in the OutputJSON folder
-
-  var ReadJSON2 = fs.readFileSync("./OutputJSON/assetlist.json"); //reading from the data.json and storing in a variable
-  var ParseJSON2 = JSON.parse(ReadJSON2); //coverting the json to javascript object
-
-  //Updating the JSON File with the jmespath query language, this one is selecting specific MeasurementTypeCode
-  var Output2 = jmespath.search(
-    ParseJSON2,
-    `[].
-{
-    AssetID: AssetID,
-    UniqueID: UniqueID,
-    DeviceID: DeviceID,
-    AssetName: AssetName,
-    SerialNumber: SerialNumber,
-    Description: Description,
-    PlantID: PlantID,
-    PlantName: PlantName,
-    AssetGroupID: AssetGroupID,
-    AssetType: AssetType,
-    SensorType: SensorType,
-    AssetTypeName: AssetTypeName,
-    IsGroup : IsGroup,
-    IsFavorite: IsFavorite,
-    FirmwareUpdate:
-    {
-        UpdateAvailable: FirmwareUpdate.UpdateAvailable,
-        UpdateFirmwareID: FirmwareUpdate.UpdateFirmwareID,
-        UpdateFirmwareVersion:  FirmwareUpdate.UpdateFirmwareVersion,
-        UpdateFirmwareProperties: FirmwareUpdate.UpdateFirmwareProperties
-    },
-    AssetPictures: AssetPictures[],
-    BatteryLevel: BatteryLevel,
-    HealthStatus: HealthStatus,
-    Labels: Labels[],
-    LastSyncTimeStamp: LastSyncTimeStamp,
-    LastMeasurementTimeStamp: LastMeasurementTimeStamp,
-    AssetProperties: AssetProperties[],
-    Measurements : Measurements[?contains(['Speed', 'SkinTemp', 'OverallVibration', 'LineFrequency', 'BearingCondition', 'Acc_z' , 'Acc_y', 'Acc_x', 'EnergyConsumption', 'MotorStartStopCount', 'PeakToPeak_X_Motor', 'PeakToPeak_Y_Motor', 'PeakToPeak_Z_Motor', 'Bearing_x_Motor', 'Bearing_y_Motor', 'Bearing_z_Motor', 'Motor_TotalRunningTime'], MeasurementTypeCode)],
-    Sensor:
-    {
-        SensorIdentifier: Sensor.SensorIdentifier,
-        Hardware:
-        {
-           HardwareRevisionID: Sensor.Hardware.HardwareRevisionID,
-           HardwareRevisionName: Sensor.Hardware.HardwareRevisionName,
-           HardwareVarianceID: Sensor.Hardware.HardwareVarianceID,
-           HardwareVarianceName: Sensor.Hardware.HardwareVarianceName
-        },  
-        FirmwareVersion: Sensor.FirmwareVersion,
-        CommissioningDate: Sensor.CommissioningDate,
-        Properties: Sensor.Properties[],
-        Subscription:
-        {
-            IsBasicSubscription: Sensor.Subscription.IsBasicSubscription,
-            IsTrialSubscription: Sensor.Subscription.IsTrialSubscription,
-            StartDate: Sensor.Subscription.StartDate,
-            EndDate: Sensor.Subscription.EndDate,
-            SubscriptionLevel:
-            {
-               Description: Sensor.Subscription.SubscriptionLevel.Description,
-               Id: Sensor.Subscription.SubscriptionLevel.Id,
-               Name: Sensor.Subscription.SubscriptionLevel.Name
-            },
-            HasAvailableSubscriptions: Sensor.Subscription.HasAvailableSubscriptions,
-            IsExpiring: Sensor.Subscription.IsExpiring
-        },
-        Features: Sensor.Features[]
-        IsPowerSavingEnabled: Sensor.IsPowerSavingEnabled,
-        OperatingMode:  Sensor.OperatingMode    
-    },
-    LocationLatitude: LocationLatitude,
-    LocationLongitude: LocationLongitude,
-    CreatedOn: CreatedOn,
-    LastUpdatedOn: LastUpdatedOn,
-    OrganizationID: OrganizationID,
-    ConfigurationProfiles: ConfigurationProfiles[],
-    AssetResponsibleID: AssetResponsibleID,
-    AssetResponsibleName: AssetResponsibleName,
-    Condition: Condition[],
-    IsMonitored: IsMonitored,
-    PlantUniqueID: PlantUniqueID,
-    AssetImageSource: AssetImageSource,
-    NameplateImageSource: NameplateImageSource,
-    SensorRange: SensorRange,
-    MeasurementStatus: MeasurementStatus,
-    AuthenticationPassKey: AuthenticationPassKey,
-    IsCommunicating: IsCommunicating,
-    AuthenticationID: AuthenticationID,
-    FirmwareVersion: FirmwareVersion,
-    SensorTypeKey:
-    {
-        SensorType:  SensorTypeKey.SensorType,
-        AssetType: SensorTypeKey.AssetType
-    },
-    OverallConditionStatus: OverallConditionStatus
-}
-`
-  );
-  console.log(Output2); //outputting the update JSON file
-  fs.writeFileSync(
-    "./OutputJSON/assetlist.json",
-    JSON.stringify(Output2, null, 2)
-  ); //storing/writing the assetlist.json which is located in the OutputJSON folder
 }
 
 /*
