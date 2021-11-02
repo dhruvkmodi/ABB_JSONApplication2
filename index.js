@@ -110,9 +110,6 @@ function UpdateJSON() {
      MeasurementValue : MeasurementValue,
      UniqueID : UniqueID 
     }
-
-
-
   }
     `
   );
