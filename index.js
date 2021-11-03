@@ -116,7 +116,8 @@ function UpdateJSON() {
   console.log(Output); //outputting the update JSON file
   fs.writeFileSync(
     "./OutputJSON/assetlist.json",
-    JSON.stringify(Output, null, 2)
+    JSON.stringify(Output, null, 2),
+    "utf-8"
   ); //storing/writing to assetlist.json which is located in the OutputJSON folder
 }
 
